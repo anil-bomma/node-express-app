@@ -19,7 +19,7 @@ const port = process.env.PORT || config.get("port");
 // declare your callback function the old way
 app.get('/', function (req, res) {
   res.send('<div style="background: #eee;min-height: 100vh;padding: 2%;"><h1 style="color:#6b70b7;text-align: center">Say Hello to Node with Express</h1>  <br> <br>' +
-    'Try going to different URIs by adding these at the end: <br> <br>' +
+    'Try going to different URIs by adding these at the end to url: <br> <br>' +
     'say-hello: <a href="say-hello" target="blank">click-here</a> <br>' +
     'json: <a href="json" target="blank">click-here</a> <br>' +
     '<br> <br>' +
