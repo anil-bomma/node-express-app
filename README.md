@@ -4,7 +4,7 @@
 
 ## Links
 
-- [Demo](https://node-express-app-563.herokuapp.com/)
+- [Demo](https://bomma-app-1.herokuapp.com)
 - [Source](https://github.com/anil-bomma/node-express-app)
 
 ## Requirements
