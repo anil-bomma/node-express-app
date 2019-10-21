@@ -1,11 +1,11 @@
 # node-express-app
 
-> A super simple web app with Node.js and the Express web framework
+> A simple web app with Node.js and the Express web framework
 
 ## Links
 
 - [Demo](https://node-express-app-563.herokuapp.com/)
-- [Source](https://github.com/denisecase/node-express-app)
+- [Source](https://github.com/anil-bomma/node-express-app)
 
 ## Requirements
 
@@ -157,6 +157,3 @@ On Windows, use Git Bash to execute the commands - NOT PowerShell. Add an alias 
 - [Heroku hosting](https://devcenter.heroku.com)
 - [Git Bash Shell for Heroku CLI](https://devcenter.heroku.com/articles/git)
 
-## See Also
-
-- [More App Examples](https://profcase.github.io/web-apps-list/)
