@@ -2,13 +2,21 @@
 const config = require('config')     // for config variables
 const express = require('express')   // Express web framework
 const helmet = require('helmet')     // HTTP security
+let fs = require('fs');
+
+let bodyParser = require('body-parser');
+// Create application/x-www-form-urlencoded parser  
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+const shortid = require('shortid');
 
 // create an Express app
 const app = express()
 
 // use Helmet middleware to automatically set secure HTTP headers
 app.use(helmet())
-
+app.use(urlencodedParser);
+app.use(bodyParser.json());
 // Use hosting values if available, otherwise default 
 const environment = process.env.NODE_ENV || 'development'
 const hostname = process.env.HOSTNAME || config.get("hostname")
@@ -39,6 +47,57 @@ app.get('/json', (req, res) => {
 })
 
 
+// or respond with JSON
+app.post('/save-blog', (req, res) => {
+
+  fs.readFile('./blogs.json', 'utf-8', function (err, data) {
+    if (err) {
+      console.log('error: ', err);
+      res.send(err);
+    } else {
+      let arrayOfBlogs = JSON.parse(data);
+
+      let blogData = req.body;
+
+      let date = new Date();
+      blogData.id = shortid.generate();
+      blogData.date = date.toLocaleDateString();
+      blogData.time = date.toLocaleTimeString();
+
+      arrayOfBlogs.blog.unshift(blogData)
+
+      fs.writeFile('./blogs.json', JSON.stringify(arrayOfBlogs), 'utf-8', function (err) {
+        if (err) {
+          console.log("err: ", err);
+          res.send(err);
+
+        } else {
+          res.send({
+            "statusCode": 200,
+            "messsage": "blog added successfully"
+          });
+        }
+      });
+    }
+  });
+})
+
+
+// or respond with JSON
+app.get('/get-blog', (req, res) => {
+
+  fs.readFile('./blogs.json', 'utf-8', function (err, data) {
+    if (err) {
+      console.log('error: ', err);
+      res.send(err);
+    } else {
+      res.send(JSON.parse(data));
+    }
+  });
+})
+
+
+
 // start listening and inform developers
 app.listen(port, hostname, () => {
   console.log(`\n App listening at http://${hostname}:${port}/`)
@@ -47,18 +106,3 @@ app.listen(port, hostname, () => {
   console.log(`   Try /json`)
   console.log('\n Hit CTRL-C CTRL-C to stop\n')
 })
-
-// Utility to see if an object is empty or not
-
-function isEmpty(obj) {
-  for(var key in obj) {
-      if(obj.hasOwnProperty(key))
-          return false;
-  }
-  return true;
-}
-
-// generates a random value in [low,high) 
-function randomInt(low, high) {
-  return Math.floor(Math.random() * (high - low) + low)
-}

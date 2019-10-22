@@ -12,7 +12,8 @@
   "dependencies": {
     "config": "latest",
     "express": "latest",
-    "helmet": "latest"
+    "helmet": "latest",
+    "shortid": "^2.2.15"
   },
   "devDependencies": {
     "nodemon": "latest"

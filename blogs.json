@@ -1,0 +1,22 @@
+{
+    "blog": [
+        {
+            "id": 1,
+            "title": "JavaScript Schedule",
+            "description": "The two key methods to use with JavaScript are: setTimeout(function, milliseconds ) Executes a function, after waiting a specified number of milliseconds. setInterval(function, milliseconds ) Same as setTimeout(), but repeats the execution of the function continuously.",
+            "date": "10/06/2019",
+            "time": "11:36:55 PM",
+            "createdBy": "Anil Bomma",
+            "image": "../assets/blog-image.png"
+        },
+        {
+            "id": 2,
+            "title": "Vue js",
+            "description": "Vue.js is an open-source JavaScript framework for building user interfaces and single-page applications. It is first created by Evan You, and now is maintained by him and the rest of the active core team members coming from various companies such as Netlify and Netguru",
+            "date": "11/06/2019",
+            "time": "11:36:55 PM",
+            "createdBy": "Anil Bomma",
+            "image": "../assets/title-banner.jpg"
+        }
+    ]
+}
