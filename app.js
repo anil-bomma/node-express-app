@@ -7,14 +7,17 @@ let fs = require('fs');
 let bodyParser = require('body-parser');
 // Create application/x-www-form-urlencoded parser  
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
+const cors = require('cors')
 
 const shortid = require('shortid');
+
 
 // create an Express app
 const app = express()
 
 // use Helmet middleware to automatically set secure HTTP headers
 app.use(helmet())
+app.use(cors()) // Use this after the variable declaration
 app.use(urlencodedParser);
 app.use(bodyParser.json());
 // Use hosting values if available, otherwise default 
