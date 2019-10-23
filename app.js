@@ -53,36 +53,45 @@ app.get('/json', (req, res) => {
 // or respond with JSON
 app.post('/save-blog', (req, res) => {
 
-  fs.readFile('./blogs.json', 'utf-8', function (err, data) {
-    if (err) {
-      console.log('error: ', err);
-      res.send(err);
-    } else {
-      let arrayOfBlogs = JSON.parse(data);
+  if (req.body.title && req.body.createdBy && req.body.description) {
+    fs.readFile('./blogs.json', 'utf-8', function (err, data) {
+      if (err) {
+        console.log('error: ', err);
+        res.send(err);
+      } else {
+        let arrayOfBlogs = JSON.parse(data);
 
-      let blogData = req.body;
+        let blogData = req.body;
 
-      let date = new Date();
-      blogData.id = shortid.generate();
-      blogData.date = date.toLocaleDateString();
-      blogData.time = date.toLocaleTimeString();
+        let date = new Date();
+        blogData.id = shortid.generate();
+        blogData.date = date.toLocaleDateString();
+        blogData.time = date.toLocaleTimeString();
 
-      arrayOfBlogs.blog.unshift(blogData)
+        arrayOfBlogs.blog.unshift(blogData)
 
-      fs.writeFile('./blogs.json', JSON.stringify(arrayOfBlogs), 'utf-8', function (err) {
-        if (err) {
-          console.log("err: ", err);
-          res.send(err);
+        fs.writeFile('./blogs.json', JSON.stringify(arrayOfBlogs), 'utf-8', function (err) {
+          if (err) {
+            console.log("err: ", err);
+            res.send(err);
 
-        } else {
-          res.send({
-            "statusCode": 200,
-            "messsage": "blog added successfully"
-          });
-        }
-      });
-    }
-  });
+          } else {
+            res.send({
+              "statusCode": 200,
+              "messsage": "blog added successfully"
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.send({
+      "errorCode": 400,
+      "message": "bad request"
+    });
+  }
+
+
 })
 
 
