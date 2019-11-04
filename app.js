@@ -90,8 +90,6 @@ app.post('/save-blog', (req, res) => {
       "message": "bad request"
     });
   }
-
-
 })
 
 
@@ -108,6 +106,57 @@ app.get('/get-blog', (req, res) => {
   });
 })
 
+
+
+
+// news-content respond with JSON
+app.post('/update/news-content', (req, res) => {
+
+  if (req.body.content) {
+    fs.readFile('./news-content.json', 'utf-8', function (err, data) {
+      if (err) {
+        console.log('error: ', err);
+        res.send(err);
+      } else {
+        let contentJson = JSON.parse(data);
+
+        contentJson.content = req.body.content;
+
+        fs.writeFile('./news-content.json', JSON.stringify(contentJson), 'utf-8', function (err) {
+          if (err) {
+            console.log("err: ", err);
+            res.send(err);
+
+          } else {
+            res.send({
+              "statusCode": 200,
+              "messsage": "content updated successfully"
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.send({
+      "errorCode": 400,
+      "message": "bad request"
+    });
+  }
+})
+
+
+// or respond with JSON
+app.get('/get/news-content', (req, res) => {
+
+  fs.readFile('./news-content.json', 'utf-8', function (err, data) {
+    if (err) {
+      console.log('error: ', err);
+      res.send(err);
+    } else {
+      res.send(JSON.parse(data));
+    }
+  });
+})
 
 
 // start listening and inform developers
