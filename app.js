@@ -2,6 +2,7 @@
 const config = require('config')     // for config variables
 const express = require('express')   // Express web framework
 const helmet = require('helmet')     // HTTP security
+const _ = require('lodash')
 let fs = require('fs');
 
 let bodyParser = require('body-parser');
@@ -92,6 +93,101 @@ app.post('/save-blog', (req, res) => {
   }
 })
 
+// update blog
+app.post('/update-blog/:id', (req, res) => {
+
+  if (req.body) {
+    fs.readFile('./blogs.json', 'utf-8', function (err, data) {
+      if (err) {
+        console.log('error: ', err);
+        res.send(err);
+      } else {
+        let arrayOfBlogs = JSON.parse(data);
+        let blodItem = null;
+        let blogIndex = null;
+        // req.params.tagId
+
+        arrayOfBlogs.blog.map(function (blog, index) {
+          if (blog.id == req.params.id) {
+            blodItem = blog;
+            blogIndex = index;
+          }
+        });
+
+        blodItem = _.assign(blodItem, req.body);
+
+        let date = new Date();
+        blodItem.updateDateAt = date.toLocaleDateString();
+        blodItem.updateTimeAt = date.toLocaleTimeString();
+
+        arrayOfBlogs.blog[blogIndex] = blodItem;
+
+        fs.writeFile('./blogs.json', JSON.stringify(arrayOfBlogs), 'utf-8', function (err) {
+          if (err) {
+            console.log("err: ", err);
+            res.send(err);
+
+          } else {
+            res.send({
+              "statusCode": 200,
+              "messsage": "blog update successfully"
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.send({
+      "errorCode": 400,
+      "message": "bad request"
+    });
+  }
+})
+
+
+// delete blog 
+app.delete('/delete-blog/:id', (req, res) => {
+
+  if (req.body) {
+    fs.readFile('./blogs.json', 'utf-8', function (err, data) {
+      if (err) {
+        console.log('error: ', err);
+        res.send(err);
+      } else {
+        let arrayOfBlogs = JSON.parse(data);
+        let blodItem = null;
+
+        arrayOfBlogs.blog.map(function (blog) {
+          if (blog.id == req.params.id) {
+            blodItem = blog;
+          }
+        });
+
+        if (blodItem) {
+          _.remove(arrayOfBlogs.blog, blodItem);
+        }
+
+        fs.writeFile('./blogs.json', JSON.stringify(arrayOfBlogs), 'utf-8', function (err) {
+          if (err) {
+            console.log("err: ", err);
+            res.send(err);
+
+          } else {
+            res.send({
+              "statusCode": 200,
+              "messsage": "blog deleted successfully"
+            });
+          }
+        });
+      }
+    });
+  } else {
+    res.send({
+      "errorCode": 400,
+      "message": "bad request"
+    });
+  }
+})
 
 // or respond with JSON
 app.get('/get-blog', (req, res) => {

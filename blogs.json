@@ -7,7 +7,9 @@
             "date": "10/06/2019",
             "time": "11:36:55 PM",
             "createdBy": "Anil B",
-            "image": "../assets/blog-image.png"
+            "image": "../assets/blog-image.png",
+            "updateDateAt": "11/18/2019",
+            "updateTimeAt": "2:30:29 PM"
         },
         {
             "id": "1",
